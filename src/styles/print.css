@@ -1,12 +1,12 @@
 @page {
   size: A4;
-  margin: 14mm;
+  margin: 12mm;
 }
 
 @media print {
   html,
   body {
-    font-size: 14px;
+    font-size: 13px;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
@@ -29,54 +29,97 @@
   }
 
   .section {
-    padding: 0;
-    break-inside: avoid-page;
+    padding: 1.25rem 0;
+    break-inside: auto;
+    page-break-inside: auto;
   }
 
   .section--page {
-    break-before: page;
-    page-break-before: always;
-    padding-top: 0;
-  }
-
-  .section--page:first-child {
     break-before: auto;
     page-break-before: auto;
   }
 
+  .section__heading {
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-bottom: 0.75rem;
+  }
+
   .cover {
     min-height: auto;
+    padding: 0 0 1.5rem;
     break-after: page;
     page-break-after: always;
   }
 
+  .cover__bg img {
+    max-height: 170mm;
+    object-fit: cover;
+  }
+
+  .cover__title {
+    max-width: none;
+    font-size: 1.75rem;
+  }
+
+  .cover__subtitle {
+    font-size: 1rem;
+  }
+
+  .grid--2.step-cards-grid,
+  .grid--2.base-compare,
+  .grid--2.adhesive-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
   .card,
   .info-card,
-  .spec-table-wrap,
-  .intro,
-  .intro__panel,
   .flow-stepper__item,
-  .tool-table__row,
-  .step-card-item,
-  .tool-table-wrap,
-  .image-block,
-  .checklist,
-  .flow-diagram,
-  .temp-scale,
-  .ppe-card,
-  .maintenance-task,
-  .maintenance-cleaners-wrap {
+  .ppe-card {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
+  .step-card-item,
+  .image-block,
+  .tool-table-wrap,
+  .spec-table-wrap,
+  .intro,
+  .intro__panel,
+  .checklist,
+  .maintenance-task,
+  .maintenance-cleaners-wrap {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .step-card-item h3,
+  .step-card-item .badge {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .image-block img,
+  .step-card-item__image img,
+  .adhesive-card__image img {
+    max-height: 80mm;
+    width: 100%;
+    object-fit: cover;
+  }
+
   .spec-table {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .spec-table th,
   .spec-table td {
-    padding: 0.5rem 0.65rem;
+    padding: 0.4rem 0.55rem;
+  }
+
+  .tool-table__row {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   a {
@@ -85,19 +128,14 @@
   }
 
   a[href^='http']::after {
-    content: ' (' attr(href) ')';
-    font-size: 0.75em;
-    color: var(--color-text-muted);
-  }
-
-  .cover a[href^='http']::after {
     content: none;
   }
 
-  h2 {
+  h2,
+  h3,
+  h4 {
     break-after: avoid;
     page-break-after: avoid;
-    line-height: 1.25;
   }
 
   body,
@@ -109,7 +147,14 @@
     font-family: 'Manrope', Arial, Helvetica, sans-serif;
   }
 
-  img {
-    max-height: 240mm;
+  ul,
+  ol {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  li {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }

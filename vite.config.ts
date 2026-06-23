@@ -6,4 +6,7 @@ const repoName = 'plastfactor-installation-guide';
 export default defineConfig({
   plugins: [react()],
   base: process.env.GITHUB_PAGES === 'true' ? `/${repoName}/` : './',
+  build: {
+    emptyOutDir: process.env.VITE_KEEP_DIST !== 'true',
+  },
 });

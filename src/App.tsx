@@ -76,7 +76,6 @@ export default function App() {
         number={sections.intro.number}
         title={sections.intro.title}
         className="section--intro"
-        pageBreak
       >
         <IntroSection />
       </Section>
@@ -87,7 +86,6 @@ export default function App() {
         title={sections.bases.title}
         lead={bases.intro}
         muted
-        pageBreak
       >
         <div className="grid grid--2 base-compare">
           <article className="card base-compare__item">
@@ -109,7 +107,6 @@ export default function App() {
         id="floor-req"
         number={sections.floorReq.number}
         title={sections.floorReq.title}
-        pageBreak
       >
         <FloorRequirementsTable rows={floorRequirements} />
       </Section>
@@ -118,7 +115,6 @@ export default function App() {
         id="prep"
         number={sections.prep.number}
         title={sections.prep.title}
-        pageBreak
       >
         <PrepStepsGrid steps={prepSteps} images={prepImages} />
       </Section>
@@ -129,12 +125,11 @@ export default function App() {
         title={sections.tools.title}
         lead={toolsIntro.lead}
         muted
-        pageBreak
       >
         <ToolGrid tools={tools} />
       </Section>
 
-      <Section id="specs" number={sections.specs.number} title={sections.specs.title} pageBreak>
+      <Section id="specs" number={sections.specs.number} title={sections.specs.title}>
         <p>{productNote}</p>
         <div className="grid grid--2 specs-layout">
           <SpecTable
@@ -148,7 +143,7 @@ export default function App() {
         </div>
       </Section>
 
-      <Section id="adhesive" number={sections.adhesive.number} title={sections.adhesive.title} pageBreak>
+      <Section id="adhesive" number={sections.adhesive.number} title={sections.adhesive.title}>
         <p>{adhesive.label}</p>
         <div className="grid grid--2 adhesive-grid">
           <article className="card adhesive-card">
@@ -173,7 +168,7 @@ export default function App() {
         </div>
       </Section>
 
-      <Section id="install" number={sections.install.number} title={sections.install.title} pageBreak>
+      <Section id="install" number={sections.install.number} title={sections.install.title}>
         <StepCardsGrid
           items={installStepsToCards(installSteps)}
           visuals={installVisuals}
@@ -181,7 +176,7 @@ export default function App() {
         />
       </Section>
 
-      <Section id="safety" number={sections.safety.number} title={sections.safety.title} muted pageBreak>
+      <Section id="safety" number={sections.safety.number} title={sections.safety.title} muted>
         <h3>{safety.conditionsTitle}</h3>
         <ul>
           {safety.conditions.map((c) => (
@@ -192,7 +187,7 @@ export default function App() {
         <PpeGrid items={safety.ppe} />
       </Section>
 
-      <Section id="limits" number={sections.limits.number} title={sections.limits.title} pageBreak>
+      <Section id="limits" number={sections.limits.number} title={sections.limits.title}>
         <TempScale />
         <div className="grid grid--2">
           {operationalLimits.items.map((item) => (
@@ -216,12 +211,11 @@ export default function App() {
         title={sections.maintenance.title}
         lead={maintenance.intro}
         muted
-        pageBreak
       >
         <MaintenanceSection schedule={maintenance.schedule} cleaners={maintenance.cleaners} />
       </Section>
 
-      <Section id="contacts" title={sections.contacts.title} pageBreak>
+      <Section id="contacts" title={sections.contacts.title}>
         <ContactsSection checklist={finalChecklist} />
       </Section>
 

@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
 import { createServer as createHttpServer } from 'node:http';
-import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, statSync, unlinkSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
@@ -10,11 +10,11 @@ const ROOT = resolve(__dirname, '..');
 const DIST = join(ROOT, 'dist');
 const REPO_NAME = 'plastfactor-installation-guide';
 const PDF_NAME = `${REPO_NAME}.pdf`;
-const PDF_PATH = join(DIST, PDF_NAME);
 const PORT = 4173;
 
 const forGitHubPages = process.env.GITHUB_PAGES === 'true';
 const BASE_PATH = forGitHubPages ? `/${REPO_NAME}` : '';
+const PDF_PATH = join(forGitHubPages ? DIST : ROOT, PDF_NAME);
 
 const MIME = {
   '.html': 'text/html',
@@ -92,11 +92,23 @@ async function preparePageForPdf(page) {
 }
 
 async function main() {
+  const distPdf = join(DIST, PDF_NAME);
+  let keepDist = false;
+
+  if (existsSync(distPdf)) {
+    try {
+      unlinkSync(distPdf);
+    } catch {
+      keepDist = true;
+      console.log('PDF in dist is open — rebuilding assets without clearing dist...');
+    }
+  }
+
   console.log(forGitHubPages ? 'Building for GitHub Pages...' : 'Building for local export...');
   await run('npm', ['run', 'build'], {
     env: forGitHubPages
       ? { ...process.env, GITHUB_PAGES: 'true' }
-      : { ...process.env, GITHUB_PAGES: '' },
+      : { ...process.env, GITHUB_PAGES: '', ...(keepDist ? { VITE_KEEP_DIST: 'true' } : {}) },
   });
 
   const server = await startStaticServer();
@@ -125,7 +137,7 @@ async function main() {
       printBackground: true,
       preferCSSPageSize: true,
       displayHeaderFooter: false,
-      margin: { top: '14mm', right: '14mm', bottom: '14mm', left: '14mm' },
+      margin: { top: '0', right: '0', bottom: '0', left: '0' },
     });
 
     if (!existsSync(PDF_PATH)) {
