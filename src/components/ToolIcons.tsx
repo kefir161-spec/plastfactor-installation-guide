@@ -1,18 +1,20 @@
-const BASE = '/images/tools';
+import { assetUrl } from '../utils/assetUrl';
+
+const toolIcon = (name: string) => assetUrl(`images/tools/${name}`);
 
 export const toolIconPaths: Record<string, string> = {
-  ruler: `${BASE}/tape-measure.png`,
-  square: `${BASE}/square.png`,
-  pencil: `${BASE}/pencil.png`,
-  knife: `${BASE}/knife.png`,
-  jigsaw: `${BASE}/jigsaw.png`,
-  template: `${BASE}/template.png`,
-  mixer: `${BASE}/mixer.png`,
-  trowel: `${BASE}/trowel.png`,
-  mallet: `${BASE}/mallet.png`,
-  roller: `${BASE}/roller.png`,
-  rag: `${BASE}/rag.png`,
-  solvent: `${BASE}/solvent.png`,
+  ruler: toolIcon('tape-measure.png'),
+  square: toolIcon('square.png'),
+  pencil: toolIcon('pencil.png'),
+  knife: toolIcon('knife.png'),
+  jigsaw: toolIcon('jigsaw.png'),
+  template: toolIcon('template.png'),
+  mixer: toolIcon('mixer.png'),
+  trowel: toolIcon('trowel.png'),
+  mallet: toolIcon('mallet.png'),
+  roller: toolIcon('roller.png'),
+  rag: toolIcon('rag.png'),
+  solvent: toolIcon('solvent.png'),
 };
 
 export function getToolIconPath(name: string): string {

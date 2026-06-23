@@ -49,6 +49,8 @@ export interface CleanerProduct {
   features: string;
 }
 
+import { assetUrl } from '../utils/assetUrl';
+
 export const sections = {
   intro: { number: '1', title: 'Введение' },
   bases: { number: '2', title: 'Основания' },
@@ -337,25 +339,25 @@ export const safety = {
     {
       id: 'gloves',
       label: 'Перчатки',
-      icon: '/images/ppe/gloves.png',
+      icon: assetUrl('images/ppe/gloves.png'),
       text: 'защитные перчатки с полимерным или нитриловым покрытием от механических повреждений и контакта с клеем и другими составами',
     },
     {
       id: 'goggles',
       label: 'Очки',
-      icon: '/images/ppe/goggles.png',
+      icon: assetUrl('images/ppe/goggles.png'),
       text: 'защитные очки — при шлифовке и работе с клеем и растворителями',
     },
     {
       id: 'respirator',
       label: 'Респиратор',
-      icon: '/images/ppe/respirator.png',
+      icon: assetUrl('images/ppe/respirator.png'),
       text: 'респиратор — при работе с пылящими материалами и использовании составов с резким запахом и летучими компонентами',
     },
     {
       id: 'knee-pads',
       label: 'Наколенники',
-      icon: '/images/ppe/knee-pads.png',
+      icon: assetUrl('images/ppe/knee-pads.png'),
       text: 'наколенники для снятия нагрузки с суставов и защиты от твердого основания',
     },
   ],
