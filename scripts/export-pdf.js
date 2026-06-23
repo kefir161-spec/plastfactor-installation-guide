@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
 import { createServer as createHttpServer } from 'node:http';
-import { createReadStream, existsSync, statSync, unlinkSync } from 'node:fs';
+import { createReadStream, existsSync, readFileSync, statSync, unlinkSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
@@ -73,14 +73,25 @@ function startStaticServer() {
   });
 }
 
+function countPdfPages(filePath) {
+  const pdf = readFileSync(filePath, 'latin1');
+  const matches = pdf.match(/\/Type\s*\/Page\b/g);
+  return matches?.length ?? 0;
+}
+
 async function preparePageForPdf(page) {
-  await page.setViewport({ width: 1200, height: 1600, deviceScaleFactor: 1 });
+  await page.setViewport({ width: 1240, height: 1754, deviceScaleFactor: 1 });
 
   await page.evaluate(async () => {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+    if (document.fonts?.ready) {
+      await document.fonts.ready;
+    }
+
     for (const img of document.images) {
       img.loading = 'eager';
+      img.decoding = 'sync';
     }
 
     let lastHeight = 0;
@@ -136,6 +147,7 @@ async function preparePageForPdf(page) {
   }
 
   await page.emulateMediaType('print');
+  await page.evaluate(() => document.fonts?.ready);
 }
 
 async function main() {
@@ -174,16 +186,17 @@ async function main() {
     page.setDefaultNavigationTimeout(120000);
     page.setDefaultTimeout(120000);
 
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
+    await page.emulateMediaType('print');
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 120000 });
     await page.waitForSelector('.cover', { timeout: 60000 });
     await preparePageForPdf(page);
 
     const pdfOptions = {
       format: 'A4',
       printBackground: true,
-      preferCSSPageSize: false,
+      preferCSSPageSize: true,
       displayHeaderFooter: false,
-      margin: { top: '12mm', right: '12mm', bottom: '12mm', left: '12mm' },
+      margin: { top: '0', right: '0', bottom: '0', left: '0' },
     };
 
     let outputPath = PDF_PATH;
@@ -201,7 +214,13 @@ async function main() {
     }
 
     const sizeKb = Math.round(statSync(outputPath).size / 1024);
-    console.log(`PDF saved: ${outputPath} (${sizeKb} KB)`);
+    const pageCount = countPdfPages(outputPath);
+
+    if (pageCount === 0) {
+      throw new Error('PDF validation failed: no pages detected');
+    }
+
+    console.log(`PDF saved: ${outputPath} (${sizeKb} KB, ${pageCount} pages)`);
   } finally {
     await browser.close();
     server.close();
