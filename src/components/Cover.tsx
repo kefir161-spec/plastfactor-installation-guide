@@ -10,7 +10,6 @@ export function Cover() {
       </div>
       <div className="cover__content container">
         <img className="cover__logo" src={images.logo} alt="ПластФактор" />
-        <p className="cover__brand">ПластФактор</p>
         <h1 className="cover__title">{meta.title}</h1>
         <p className="cover__subtitle">{meta.subtitle}</p>
         <span className="badge badge--dark cover__badge">{meta.badge}</span>

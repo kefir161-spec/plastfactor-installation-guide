@@ -39,15 +39,6 @@
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }
 
-.cover__brand {
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.9;
-  margin-bottom: var(--space-sm);
-}
-
 .cover__title {
   color: #fff;
   max-width: 16ch;
