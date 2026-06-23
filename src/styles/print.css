@@ -1,0 +1,115 @@
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
+@media print {
+  html,
+  body {
+    font-size: 14px;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .screen-toolbar {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  .app {
+    background: #fff;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .section {
+    padding: 0;
+    break-inside: avoid-page;
+  }
+
+  .section--page {
+    break-before: page;
+    page-break-before: always;
+    padding-top: 0;
+  }
+
+  .section--page:first-child {
+    break-before: auto;
+    page-break-before: auto;
+  }
+
+  .cover {
+    min-height: auto;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .card,
+  .info-card,
+  .spec-table-wrap,
+  .intro,
+  .intro__panel,
+  .flow-stepper__item,
+  .tool-table__row,
+  .step-card-item,
+  .tool-table-wrap,
+  .image-block,
+  .checklist,
+  .flow-diagram,
+  .temp-scale,
+  .ppe-card,
+  .maintenance-task,
+  .maintenance-cleaners-wrap {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .spec-table {
+    font-size: 13px;
+  }
+
+  .spec-table th,
+  .spec-table td {
+    padding: 0.5rem 0.65rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    color: var(--color-text-muted);
+  }
+
+  .cover a[href^='http']::after {
+    content: none;
+  }
+
+  h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+    line-height: 1.25;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+  }
+
+  img {
+    max-height: 240mm;
+  }
+}

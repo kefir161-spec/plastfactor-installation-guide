@@ -1,0 +1,12 @@
+node_modules
+dist
+image
+_odt_extract
+_temp.zip
+_homepage.html
+_instruction_raw.xml
+_instruction_text.txt
+_*.html
+*.odt
+*.pdf
+*.local
