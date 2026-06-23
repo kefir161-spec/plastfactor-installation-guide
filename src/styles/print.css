@@ -102,10 +102,20 @@
 
   .image-block img,
   .step-card-item__image img,
-  .adhesive-card__image img {
+  .adhesive-card__image img,
+  .tile-visual__photo,
+  .ppe-card__img,
+  .tool-icon-img {
     max-height: 80mm;
     width: 100%;
     object-fit: cover;
+  }
+
+  .tool-icon-img,
+  .ppe-card__img {
+    max-height: 18mm;
+    width: auto;
+    object-fit: contain;
   }
 
   .spec-table {

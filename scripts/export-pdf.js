@@ -75,20 +75,67 @@ function startStaticServer() {
 
 async function preparePageForPdf(page) {
   await page.setViewport({ width: 1200, height: 1600, deviceScaleFactor: 1 });
-  await page.emulateMediaType('print');
 
   await page.evaluate(async () => {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    const step = Math.max(window.innerHeight, 800);
 
-    for (let y = 0; y <= document.body.scrollHeight; y += step) {
-      window.scrollTo(0, y);
-      await delay(150);
+    for (const img of document.images) {
+      img.loading = 'eager';
     }
 
-    window.scrollTo(0, 0);
-    await delay(2000);
+    let lastHeight = 0;
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const height = document.body.scrollHeight;
+
+      for (let y = 0; y <= height; y += 500) {
+        window.scrollTo(0, y);
+        await delay(250);
+      }
+
+      window.scrollTo(0, 0);
+      await delay(400);
+
+      if (height === lastHeight) break;
+      lastHeight = height;
+    }
+
+    await Promise.all(
+      Array.from(document.images).map(
+        (img) =>
+          new Promise((resolve) => {
+            const done = () => resolve();
+            if (img.complete && img.naturalWidth > 0) {
+              resolve();
+              return;
+            }
+            img.addEventListener('load', done, { once: true });
+            img.addEventListener('error', done, { once: true });
+            const src = img.currentSrc || img.src;
+            if (src) img.src = src;
+          }),
+      ),
+    );
+
+    await delay(1000);
   });
+
+  const imageStats = await page.evaluate(() => {
+    const images = Array.from(document.images);
+    return {
+      total: images.length,
+      loaded: images.filter((img) => img.complete && img.naturalWidth > 0).length,
+      failed: images
+        .filter((img) => img.complete && img.naturalWidth === 0)
+        .map((img) => img.src),
+    };
+  });
+
+  console.log(`Images loaded: ${imageStats.loaded}/${imageStats.total}`);
+  if (imageStats.failed.length > 0) {
+    console.warn('Failed images:', imageStats.failed);
+  }
+
+  await page.emulateMediaType('print');
 }
 
 async function main() {

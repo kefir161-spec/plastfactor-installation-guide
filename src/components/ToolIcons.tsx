@@ -44,7 +44,6 @@ export function ToolIcon({ name }: ToolIconProps) {
       src={getToolIconPath(name)}
       alt=""
       className="tool-icon-img"
-      loading="lazy"
       width={56}
       height={56}
     />

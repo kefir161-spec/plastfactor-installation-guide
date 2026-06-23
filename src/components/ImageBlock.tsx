@@ -28,7 +28,6 @@ export function ImageBlock({
       <img
         src={src}
         alt={alt}
-        loading="lazy"
         style={objectPosition ? { objectPosition } : undefined}
       />
       {caption && <figcaption>{caption}</figcaption>}

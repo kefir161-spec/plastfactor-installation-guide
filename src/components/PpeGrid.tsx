@@ -10,7 +10,7 @@ export function PpeGrid({ items }: PpeGridProps) {
       {items.map((item) => (
         <article key={item.id} className="ppe-card card">
           <div className="ppe-card__icon">
-            <img src={item.icon} alt={item.label} className="ppe-card__img" loading="lazy" width={128} height={128} />
+            <img src={item.icon} alt={item.label} className="ppe-card__img" width={128} height={128} />
           </div>
           <p>{item.text}</p>
         </article>

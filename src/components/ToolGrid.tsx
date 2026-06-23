@@ -33,7 +33,7 @@ export function ToolGrid({ tools, imageSrc, photoNote }: ToolGridProps) {
     <div className="tool-section">
       {imageSrc && (
         <figure className="tool-section__hero image-block">
-          <img src={imageSrc} alt="Инструмент для монтажа модульной ПВХ-плитки" loading="lazy" />
+          <img src={imageSrc} alt="Инструмент для монтажа модульной ПВХ-плитки" />
           {photoNote && <figcaption>{photoNote}</figcaption>}
         </figure>
       )}
