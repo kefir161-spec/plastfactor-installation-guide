@@ -178,21 +178,30 @@ async function main() {
     await page.waitForSelector('.cover', { timeout: 60000 });
     await preparePageForPdf(page);
 
-    await page.pdf({
-      path: PDF_PATH,
+    const pdfOptions = {
       format: 'A4',
       printBackground: true,
-      preferCSSPageSize: true,
+      preferCSSPageSize: false,
       displayHeaderFooter: false,
-      margin: { top: '0', right: '0', bottom: '0', left: '0' },
-    });
+      margin: { top: '12mm', right: '12mm', bottom: '12mm', left: '12mm' },
+    };
 
-    if (!existsSync(PDF_PATH)) {
+    let outputPath = PDF_PATH;
+    try {
+      await page.pdf({ ...pdfOptions, path: outputPath });
+    } catch (error) {
+      if (error?.code !== 'EBUSY') throw error;
+      outputPath = join(ROOT, `${PDF_NAME.replace('.pdf', '')}-${Date.now()}.pdf`);
+      console.log(`PDF is open, saving to ${outputPath}`);
+      await page.pdf({ ...pdfOptions, path: outputPath });
+    }
+
+    if (!existsSync(outputPath)) {
       throw new Error('PDF file was not created');
     }
 
-    const sizeKb = Math.round(statSync(PDF_PATH).size / 1024);
-    console.log(`PDF saved: ${PDF_PATH} (${sizeKb} KB)`);
+    const sizeKb = Math.round(statSync(outputPath).size / 1024);
+    console.log(`PDF saved: ${outputPath} (${sizeKb} KB)`);
   } finally {
     await browser.close();
     server.close();

@@ -29,51 +29,74 @@
   }
 
   .section {
-    padding: 1.25rem 0;
+    padding: 0.75rem 0;
     break-inside: auto;
     page-break-inside: auto;
   }
 
-  .section--page {
-    break-before: auto;
-    page-break-before: auto;
+  .section__heading {
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-bottom: 0.5rem;
   }
 
-  .section__heading {
+  .section__lead {
     break-after: avoid;
     page-break-after: avoid;
     margin-bottom: 0.75rem;
   }
 
   .cover {
+    position: relative;
     min-height: auto;
-    padding: 0 0 1.5rem;
+    padding: 0 0 1rem;
+    overflow: visible;
     break-after: page;
     page-break-after: always;
   }
 
   .cover__bg img {
-    max-height: 170mm;
+    max-height: 140mm;
     object-fit: cover;
   }
 
   .cover__title {
     max-width: none;
-    font-size: 1.75rem;
+    font-size: 1.65rem;
   }
 
   .cover__subtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
-  .grid--2.step-cards-grid,
-  .grid--2.base-compare,
-  .grid--2.adhesive-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  /* CSS Grid ломает разрывы страниц в Chromium PDF */
+  .grid,
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    display: block !important;
   }
 
-  .card,
+  .grid > *,
+  .grid--2 > *,
+  .grid--3 > *,
+  .grid--4 > * {
+    margin-bottom: 0.75rem;
+  }
+
+  .grid > *:last-child,
+  .grid--2 > *:last-child {
+    margin-bottom: 0;
+  }
+
+  .card {
+    break-inside: auto;
+    page-break-inside: auto;
+    overflow: visible;
+    box-shadow: none;
+    padding: 0.85rem;
+  }
+
   .info-card,
   .flow-stepper__item,
   .ppe-card {
@@ -81,17 +104,13 @@
     page-break-inside: avoid;
   }
 
-  .step-card-item,
-  .image-block,
-  .tool-table-wrap,
-  .spec-table-wrap,
-  .intro,
-  .intro__panel,
-  .checklist,
-  .maintenance-task,
-  .maintenance-cleaners-wrap {
-    break-inside: auto;
-    page-break-inside: auto;
+  .step-card-item {
+    display: block !important;
+    height: auto !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    overflow: visible;
+    margin-bottom: 0.75rem;
   }
 
   .step-card-item h3,
@@ -100,22 +119,61 @@
     page-break-after: avoid;
   }
 
+  .step-card-item__image,
+  .step-card-item__diagram {
+    display: block !important;
+    flex: none !important;
+    min-height: 0 !important;
+    margin-top: 0.5rem;
+    overflow: visible;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .image-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    overflow: visible;
+    margin: 0.5rem 0;
+  }
+
+  .image-block img {
+    display: block;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .base-compare__item img,
   .image-block img,
   .step-card-item__image img,
-  .adhesive-card__image img,
-  .tile-visual__photo,
-  .ppe-card__img,
-  .tool-icon-img {
-    max-height: 80mm;
+  .adhesive-card__image img {
+    max-height: 52mm;
     width: 100%;
     object-fit: cover;
   }
 
+  .tile-visual__photo {
+    max-height: 45mm;
+    object-fit: contain;
+  }
+
   .tool-icon-img,
   .ppe-card__img {
-    max-height: 18mm;
+    max-height: 14mm;
     width: auto;
     object-fit: contain;
+  }
+
+  .spec-table-wrap,
+  .tool-table-wrap,
+  .intro,
+  .intro__panel,
+  .checklist,
+  .maintenance-task,
+  .maintenance-cleaners-wrap {
+    break-inside: auto;
+    page-break-inside: auto;
+    overflow: visible;
   }
 
   .spec-table {
