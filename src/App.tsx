@@ -34,6 +34,9 @@ import {
   toolsIntro,
 } from './data/instruction';
 import { images } from './data/assets';
+import { assetUrl } from './utils/assetUrl';
+
+const pdfUrl = assetUrl('plastfactor-installation-guide.pdf');
 
 const prepImages: Record<number, string> = {
   1: images.prepAssessment,
@@ -223,8 +226,11 @@ export default function App() {
       </Section>
 
       <div className="screen-toolbar">
-        <button type="button" onClick={() => window.print()}>
-          Печать / PDF
+        <a className="screen-toolbar__action" href={pdfUrl} download>
+          Скачать PDF
+        </a>
+        <button className="screen-toolbar__action" type="button" onClick={() => window.print()}>
+          Печать
         </button>
       </div>
     </div>
