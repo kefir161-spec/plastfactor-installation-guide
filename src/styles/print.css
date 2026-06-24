@@ -1,28 +1,20 @@
 @page {
   size: A4;
-  margin: 13mm 12mm;
+  margin: 8mm;
 }
 
 @media print {
-  :root {
-    --font-size-base: 12px;
-    --line-height: 1.48;
-    --space-xs: 0.35rem;
-    --space-sm: 0.5rem;
-    --space-md: 0.75rem;
-    --space-lg: 1rem;
-    --space-xl: 1.35rem;
-    --space-2xl: 1.8rem;
-    --space-3xl: 2.2rem;
-    --shadow-card: none;
-  }
-
   *,
   *::before,
   *::after {
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
     box-shadow: none !important;
+  }
+
+  html {
+    /* Единый масштаб: пропорции лендинга без точечного сжатия шрифтов и иконок */
+    zoom: 0.45;
   }
 
   html,
@@ -32,12 +24,10 @@
     margin: 0;
     overflow: visible !important;
     background: #fff;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height);
     color: var(--color-text);
-    font-family: 'Manrope', Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    line-height: 1.48;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
   }
 
   body {
@@ -47,6 +37,10 @@
 
   .print-only {
     display: block;
+  }
+
+  .contacts-list__row.print-only {
+    display: grid;
   }
 
   .app {
@@ -60,155 +54,64 @@
     padding: 0 !important;
   }
 
-  .section {
-    padding: 5mm 0 4mm !important;
+  /* Лист PDF: заполняет страницу, разрыв после листа */
+  .print-sheet {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(297mm - 16mm);
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .print-sheet:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .print-sheet .section {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: var(--space-md) 0 !important;
     break-inside: auto;
     page-break-inside: auto;
     background: transparent !important;
   }
 
-  .section__heading {
-    break-after: avoid;
-    page-break-after: avoid;
-    margin: 0 0 0.65rem;
-    font-size: 1.45rem;
-    line-height: 1.18;
-    text-wrap: balance;
-  }
-
-  .section__lead {
-    break-after: avoid;
-    page-break-after: avoid;
-    margin: 0 0 0.8rem;
-    max-width: none;
-    font-size: 1rem;
-    line-height: 1.45;
-  }
-
-  .cover {
-    position: relative;
-    display: flex;
-    min-height: calc(297mm - 26mm);
-    padding: 18mm 0 !important;
-    overflow: hidden;
-    break-after: page;
-    page-break-after: always;
-    color: #fff;
-  }
-
-  .cover__bg,
-  .cover__overlay {
-    position: absolute;
-    inset: 0;
-  }
-
-  .cover__bg {
-    z-index: 0;
-  }
-
-  .cover__bg img {
-    width: 100%;
-    height: 100%;
-    max-height: none;
-    object-fit: cover;
-  }
-
-  .cover__overlay {
-    background: linear-gradient(180deg, rgba(17, 17, 17, 0.42) 0%, rgba(17, 17, 17, 0.9) 100%);
-  }
-
-  .cover__content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    min-height: calc(297mm - 62mm);
-  }
-
-  .cover__logo {
-    width: 46mm;
-    margin-bottom: 8mm;
-  }
-
-  .cover__title {
-    max-width: 17ch;
-    margin: 0 0 4mm;
-    color: #fff;
-    font-size: 2rem;
-    line-height: 1.12;
-  }
-
-  .cover__subtitle {
-    margin: 0 0 5mm;
-    font-size: 1.05rem;
-    line-height: 1.35;
-  }
-
-  .cover__badge {
-    align-self: flex-start;
-    margin: 0;
-  }
-
-  .section:has(#intro) {
+  .print-sheet .section:first-child {
     padding-top: 0 !important;
   }
 
-  #floor-req,
-  #tools,
-  #install,
-  #maintenance {
-    break-before: page;
-    page-break-before: always;
+  .print-sheet .section:last-child {
+    padding-bottom: 0 !important;
   }
 
+  .print-sheet .section > .container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .section--muted {
+    background: var(--color-bg-muted) !important;
+  }
+
+  .section__heading,
+  .section__lead,
   h1,
   h2,
   h3,
   h4,
-  .section__heading,
-  .section__lead,
   .intro__panel-title,
   .maintenance-block__title {
     break-after: avoid;
     page-break-after: avoid;
   }
 
-  h2,
-  h3,
-  h4,
-  p,
-  li,
-  td,
-  th {
-    overflow-wrap: anywhere;
-    word-break: normal;
-    hyphens: auto;
-  }
-
-  p,
-  ul,
-  ol {
-    margin-top: 0;
-  }
-
   p {
     max-width: none !important;
-    margin-bottom: 0.55rem;
-  }
-
-  ul,
-  ol {
-    break-inside: auto;
-    page-break-inside: auto;
-    margin-bottom: 0.65rem;
-    padding-left: 1.15rem;
-  }
-
-  li {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin-bottom: 0.25rem;
   }
 
   a {
@@ -220,18 +123,8 @@
     content: none;
   }
 
-  .badge {
-    padding: 0.22rem 0.5rem;
-    font-size: 0.72rem;
-    line-height: 1.25;
-  }
-
   .card {
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
     overflow: visible;
-    padding: 0.75rem;
-    background: var(--color-bg-card);
   }
 
   .info-card,
@@ -245,221 +138,27 @@
   .tool-table__row,
   .req-table tr,
   .spec-table tr,
-  .maintenance-cleaners tr {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .grid,
-  .grid--2,
-  .grid--3,
-  .grid--4,
-  .intro__grid,
-  .intro__specs,
-  .maintenance-schedule,
-  .ppe-grid {
-    display: grid !important;
-    gap: 0.65rem !important;
-    align-items: start;
-  }
-
-  .grid--2,
-  .grid--3,
-  .grid--4,
-  .intro__grid,
-  .maintenance-schedule {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
-  .intro__specs,
-  .ppe-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-
-  .base-compare,
-  .adhesive-grid,
-  .specs-layout {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
-  .step-cards-grid {
-    display: block !important;
-    columns: 2;
-    column-gap: 0.8rem;
-  }
-
+  .maintenance-cleaners tr,
   .step-card-item {
-    display: inline-block !important;
-    width: 100%;
-    height: auto !important;
-    margin: 0 0 0.7rem;
-    padding: 0.65rem;
     break-inside: avoid;
     page-break-inside: avoid;
-    overflow: hidden;
-  }
-
-  .step-card-item h3 {
-    margin: 0.45rem 0 0.35rem;
-    font-size: 0.98rem;
-    line-height: 1.25;
-    break-after: avoid;
-    page-break-after: avoid;
-  }
-
-  .step-card-item p {
-    margin-bottom: 0.35rem;
-    font-size: 0.86rem;
-    line-height: 1.38;
-  }
-
-  .step-card-item__note {
-    font-size: 0.78rem;
-    line-height: 1.35;
-  }
-
-  .step-card-item__image,
-  .step-card-item__diagram {
-    display: block !important;
-    flex: none !important;
-    min-height: 0 !important;
-    margin: 0.45rem 0 0;
-    overflow: hidden;
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .step-card-item__diagram {
-    height: 32mm;
-  }
-
-  .step-card-item__diagram .diagram {
-    width: 100%;
-    height: 100%;
-  }
-
-  .image-block {
-    display: block;
-    overflow: visible;
-    margin: 0.45rem 0;
-  }
-
-  img,
-  svg {
-    max-width: 100%;
-  }
-
-  .image-block img,
-  .step-card-item__image img,
-  .adhesive-card__image img,
-  .tile-visual__photo,
-  .tool-icon-img,
-  .ppe-card__img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    object-fit: contain;
-  }
-
-  .base-compare__item img,
-  .image-block img,
-  .step-card-item__image img,
-  .adhesive-card__image img {
-    width: 100%;
-    max-height: 48mm;
-    object-fit: contain;
-  }
-
-  .base-compare__item img {
-    max-height: 42mm;
-  }
-
-  .step-card-item__image img {
-    max-height: 34mm;
-    border-radius: 5px;
-  }
-
-  .adhesive-card {
-    justify-content: center;
-  }
-
-  .adhesive-card__image img {
-    width: auto;
-    max-height: 62mm;
-  }
-
-  .tile-visual__photo {
-    max-height: none;
-    object-fit: contain;
-  }
-
-  .specs-visual {
-    min-height: auto;
-    padding: 0.75rem;
-  }
-
-  .specs-visual .tile-visual__frame {
-    max-width: 58mm;
-    height: auto;
-  }
-
-  .tool-icon-img,
-  .ppe-card__img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .tool-table__icon {
-    width: 13mm;
-    height: 13mm;
-    padding: 1mm;
-    border-radius: 4px;
-  }
-
-  .ppe-card {
-    align-items: center;
-    text-align: center;
-    padding: 0.65rem 0.5rem;
-  }
-
-  .ppe-card__icon {
-    width: 20mm;
-    height: 20mm;
-  }
-
-  .ppe-grid .ppe-card p {
-    margin: 0.4rem 0 0;
-    font-size: 0.78rem;
-    line-height: 1.32;
   }
 
   .spec-table-wrap,
   .req-table-wrap,
   .tool-table-wrap,
   .maintenance-cleaners-wrap {
-    break-inside: auto;
-    page-break-inside: auto;
     overflow: visible !important;
-    border-radius: 6px;
     width: 100%;
   }
 
   table {
     width: 100% !important;
     max-width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
   }
 
   thead {
     display: table-header-group;
-  }
-
-  tfoot {
-    display: table-footer-group;
   }
 
   tr {
@@ -467,222 +166,517 @@
     page-break-inside: avoid;
   }
 
-  .spec-table,
-  .req-table,
-  .tool-table,
-  .maintenance-cleaners {
-    font-size: 0.78rem;
+  /* Обложка + введение */
+  .print-sheet--1 .cover {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 0 !important;
+    max-height: none;
+    padding: 0 0 var(--space-md) !important;
+    break-after: avoid;
+    page-break-after: avoid;
+    overflow: hidden;
+    color: #fff;
+  }
+
+  .cover {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 0 !important;
+    padding: 0 0 var(--space-md) !important;
+  }
+
+  .cover__bg,
+  .cover__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cover__bg {
+    z-index: 0;
+    background: #141414;
+  }
+
+  .cover__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+  }
+
+  .cover__overlay {
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.42) 0%, rgba(17, 17, 17, 0.9) 100%);
+  }
+
+  .cover__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+  }
+
+  .cover__title,
+  .cover__subtitle {
+    color: #fff;
+  }
+
+  .section:has(#intro) {
+    padding-top: 0 !important;
+  }
+
+  .print-sheet--1 .intro {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--1 .intro__grid {
+    flex: 1 1 auto;
+  }
+
+  /* Основания + требования */
+  .print-sheet--2 .base-compare {
+    flex: 1 1 auto;
+    align-items: stretch;
+  }
+
+  .print-sheet--2 .base-compare__item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .print-sheet--2 .base-compare__item .image-block {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+  }
+
+  .print-sheet--2 .base-compare__item img {
+    flex: 1 1 auto;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Подготовка основания */
+  .print-sheet--3 .step-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--space-lg) !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: stretch;
+    grid-auto-rows: 1fr;
+  }
+
+  .print-sheet--3 .step-card-item {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .print-sheet--3 .step-card-item__image {
+    margin-top: auto;
+    flex: 1 1 0;
+    display: flex !important;
+    flex-direction: column;
+    min-height: 9rem;
+  }
+
+  .print-sheet--3 .step-card-item__image img {
+    width: 100%;
+    flex: 1;
+    min-height: 9rem;
+    object-fit: cover;
+  }
+
+  .print-sheet--3 .step-card-item__diagram {
+    margin-top: auto;
+    flex: 1 1 0;
+    min-height: 9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-sheet--3 .step-card-item__diagram .diagram {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Инструмент */
+  .print-sheet--4 .tool-section {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .print-sheet--4 .tool-table-wrap {
+    flex: 1 1 auto;
+  }
+
+  /* Характеристики + клей */
+  .print-sheet--5 .specs-layout {
+    flex: 1 1 auto;
+    align-items: stretch;
+  }
+
+  .print-sheet--5 .specs-visual {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .print-sheet--5 .products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .print-sheet--5 .product-card.adhesive-product {
+    padding: 0.4rem 0.5rem;
+    break-inside: avoid;
+    box-shadow: none;
+    border-radius: 10px;
+  }
+
+  .print-sheet--5 .product-card__image {
+    height: 5.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .print-sheet--5 .product-card__image img {
+    max-height: 4.25rem;
+  }
+
+  .print-sheet--5 .product-card__title {
+    font-size: 0.75rem;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .print-sheet--5 .product-card__subtitle {
+    margin-bottom: 0.35rem;
+    font-size: 0.65rem;
+    line-height: 1.45;
+    color: #6b7280;
+  }
+
+  .print-sheet--5 .spec-row {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 0.35rem;
+    padding: 0.25rem 0;
+    align-items: start;
+  }
+
+  .print-sheet--5 .spec-label {
+    font-size: 0.625rem;
     line-height: 1.35;
+    color: #6b7280;
   }
 
-  .spec-table th,
-  .spec-table td,
-  .req-table th,
-  .req-table td,
-  .tool-table thead th,
-  .tool-table__row td,
-  .tool-table__group-row td,
-  .maintenance-cleaners th,
-  .maintenance-cleaners td {
-    padding: 0.36rem 0.45rem;
-    overflow-wrap: anywhere;
-    word-break: normal;
+  .print-sheet--5 .spec-value {
+    font-size: 0.625rem;
+    line-height: 1.4;
+    text-align: right;
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
-  .req-table thead th:nth-child(1) {
-    width: 18%;
+  .print-sheet--5 .product-card__note {
+    padding-top: 0.35rem;
+    font-size: 0.6rem;
+    line-height: 1.45;
+    color: #4b5563;
   }
 
-  .req-table thead th:nth-child(2) {
-    width: 28%;
+  /* Укладка — 9 этапов, заполнение листа по высоте */
+  .print-sheet--6 .section {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: var(--space-sm) 0 !important;
   }
 
-  .spec-table th:nth-child(1),
-  .spec-table td:nth-child(1) {
-    width: 34%;
+  .print-sheet--6 .section > .container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
 
-  .tool-table__col-icon {
-    width: 18mm;
+  .print-sheet--6 .section__heading {
+    flex: 0 0 auto;
+    margin-bottom: var(--space-md);
   }
 
-  .tool-table__col-name {
-    width: 31%;
+  .print-sheet--6 .step-cards-grid {
+    display: grid !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: var(--space-md) !important;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
   }
 
-  .tool-table__icon-cell {
-    padding: 0.25rem !important;
-    text-align: center;
+  .print-sheet--6 .step-card-item {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-md) !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
-  .tool-table__name-cell {
-    font-size: 0.78rem;
-    line-height: 1.3;
+  .print-sheet--6 .step-card-item h3 {
+    flex: 0 0 auto;
+    margin-top: var(--space-sm);
   }
 
-  .tool-table__purpose-cell {
-    line-height: 1.35;
-  }
-
-  .maintenance-cleaners thead th:nth-child(1) {
-    width: 28%;
-  }
-
-  .maintenance-cleaners thead th:nth-child(2) {
-    width: 32%;
-  }
-
-  .intro {
-    gap: 0.8rem;
-  }
-
-  .intro__summary {
-    max-width: none;
-    font-size: 1.02rem;
+  .print-sheet--6 .step-card-item p {
+    flex: 0 0 auto;
+    font-size: 0.85rem;
     line-height: 1.45;
   }
 
-  .intro__note,
-  .intro__panel {
-    padding: 0.75rem;
-    break-inside: avoid;
-    page-break-inside: avoid;
+  .print-sheet--6 .step-card-item__image,
+  .print-sheet--6 .step-card-item__diagram {
+    margin-top: auto;
+    flex: 1 1 0;
+    min-height: 5.5rem;
+    display: flex !important;
+    flex-direction: column;
   }
 
-  .intro__audience li {
-    padding: 0.25rem 0.55rem;
-    font-size: 0.78rem;
+  .print-sheet--6 .step-card-item__image img {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 5.5rem;
+    object-fit: cover;
   }
 
-  .flow-stepper__item {
-    grid-template-columns: 1.55rem 1fr;
-    gap: 0.5rem;
-    padding: 0.35rem 0;
+  .print-sheet--6 .step-card-item__diagram {
+    align-items: center;
+    justify-content: center;
   }
 
-  .flow-stepper__num,
-  .maintenance-task__index {
-    width: 1.55rem;
-    height: 1.55rem;
-    font-size: 0.72rem;
+  .print-sheet--6 .step-card-item__diagram .diagram {
+    width: 100%;
+    height: 100%;
   }
 
-  .flow-stepper__label {
-    font-size: 0.82rem;
-    line-height: 1.3;
+  .print-sheet--6 .trowel-tkb {
+    flex: 0 0 auto;
+    margin: 0.35rem 0 0.25rem;
   }
 
-  .card__value {
-    font-size: 1rem;
-  }
-
-  .card__note {
-    font-size: 0.76rem;
-  }
-
-  .adhesive-tech__row {
-    grid-template-columns: 6.2rem 1fr;
-    padding: 0.28rem 0;
-    font-size: 0.76rem;
-  }
-
-  .adhesive-tech__notes {
-    font-size: 0.76rem;
-    line-height: 1.35;
-  }
-
-  .temp-scale {
-    margin-bottom: 0.9rem;
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .temp-scale__bar {
-    height: 1.8rem;
-  }
-
-  .hazard-icons {
-    gap: 0.45rem;
-    margin-top: 0.7rem;
-  }
-
-  .hazard-icons span {
-    padding: 0.35rem 0.55rem;
+  .print-sheet--6 .trowel-tkb__table {
     font-size: 0.75rem;
+  }
+
+  /* Безопасность + ограничения + уход — равномерно по высоте листа */
+  .print-sheet--7 {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(297mm - 16mm);
+    gap: 0;
+  }
+
+  .print-sheet--7 .section {
+    display: block !important;
+    flex: none !important;
+    min-height: auto !important;
+    padding: 0 !important;
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
-  .maintenance-section {
-    gap: 1.2rem;
+  .print-sheet--7 .section > .container {
+    display: block !important;
+    flex: none !important;
+    min-height: auto !important;
   }
 
-  .maintenance-block__title {
+  .print-sheet--7 .section__heading {
     margin-bottom: 0.4rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.2;
   }
 
-  .maintenance-block__lead {
-    max-width: none;
-    margin-bottom: 0.65rem;
-    font-size: 0.86rem;
+  .print-sheet--7 .section__lead {
+    display: none;
   }
 
-  .maintenance-task__header {
-    margin-bottom: 0.45rem;
+  .print-sheet--7 h3 {
+    margin: 0.2rem 0 0.15rem;
+    font-size: 0.84rem;
+    line-height: 1.25;
   }
 
-  .maintenance-task__title {
-    font-size: 0.9rem;
-  }
-
-  .maintenance-task__note {
+  .print-sheet--7 ul {
+    margin: 0 0 0.4rem;
+    padding-left: 1rem;
     font-size: 0.8rem;
+    line-height: 1.42;
+  }
+
+  .print-sheet--7 .ppe-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.55rem !important;
+  }
+
+  .print-sheet--7 .ppe-grid .ppe-card {
+    padding: 0.5rem !important;
+  }
+
+  .print-sheet--7 .ppe-card__icon {
+    width: 4.75rem;
+    height: 4.75rem;
+    margin: 0 auto;
+  }
+
+  .print-sheet--7 .ppe-grid .ppe-card p {
+    margin-top: 0.35rem;
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .print-sheet--7 .temp-scale {
+    margin-bottom: 0.4rem;
+  }
+
+  .print-sheet--7 .temp-scale__bar {
+    height: 2rem;
+    font-size: 0.76rem;
+  }
+
+  .print-sheet--7 .temp-scale__note {
+    margin-top: 0.2rem;
+    font-size: 0.74rem;
     line-height: 1.38;
   }
 
-  .final-section {
-    gap: 0.85rem;
+  .print-sheet--7 #limits .grid--2 {
+    gap: 0.45rem !important;
+    margin-bottom: 0.4rem;
   }
 
-  .contacts-card {
-    padding: 1rem;
+  .print-sheet--7 #limits .grid--2 .card {
+    padding: 0.5rem 0.6rem !important;
   }
 
-  .contacts-card__logo {
-    width: 42mm;
-    margin-bottom: 0.75rem;
+  .print-sheet--7 #limits .grid--2 .card h3 {
+    margin-bottom: 0.2rem;
+    font-size: 0.82rem;
+    line-height: 1.25;
   }
 
-  .contacts-list {
-    max-width: none;
+  .print-sheet--7 #limits .grid--2 .card p {
+    margin: 0;
+    font-size: 0.76rem;
+    line-height: 1.42;
   }
 
-  .contacts-list__row {
-    grid-template-columns: 6rem 1fr;
-    gap: 0.7rem;
-    padding: 0.35rem 0;
+  .print-sheet--7 .hazard-icons {
+    gap: 0.35rem;
+    font-size: 0.74rem;
   }
 
-  .contacts-list dd {
-    font-size: 0.86rem;
-    overflow-wrap: anywhere;
+  .print-sheet--7 .hazard-icons span {
+    padding: 0.28rem 0.55rem;
   }
 
-  .final-checklist {
-    padding: 0.85rem 1rem;
+  .print-sheet--7 .maintenance-section {
+    display: block;
   }
 
-  .checklist__list li {
-    align-items: flex-start;
-    gap: 0.45rem;
-    margin-bottom: 0.28rem;
+  .print-sheet--7 .maintenance-block {
+    margin-bottom: 0.45rem;
   }
 
-  .checklist__box {
-    width: 0.78rem;
-    height: 0.78rem;
-    margin-top: 0.18rem;
+  .print-sheet--7 .maintenance-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .print-sheet--7 .maintenance-block__title {
+    margin-bottom: 0.2rem;
+    font-size: 0.84rem;
+  }
+
+  .print-sheet--7 .maintenance-block__lead {
+    display: none;
+  }
+
+  .print-sheet--7 .maintenance-schedule {
+    gap: 0.4rem !important;
+    margin-bottom: 0.35rem;
+  }
+
+  .print-sheet--7 .maintenance-task {
+    padding: 0.45rem 0.55rem !important;
+  }
+
+  .print-sheet--7 .maintenance-task__header {
+    margin-bottom: 0.25rem;
+  }
+
+  .print-sheet--7 .maintenance-task__index {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.72rem;
+  }
+
+  .print-sheet--7 .maintenance-task .badge {
+    font-size: 0.66rem;
+    padding: 0.14rem 0.38rem;
+  }
+
+  .print-sheet--7 .maintenance-task__title {
+    margin-bottom: 0.12rem;
+    font-size: 0.8rem;
+    line-height: 1.25;
+  }
+
+  .print-sheet--7 .maintenance-task__note {
+    margin: 0;
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+
+  .print-sheet--7 .maintenance-cleaners {
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+
+  .print-sheet--7 .maintenance-cleaners th,
+  .print-sheet--7 .maintenance-cleaners td {
+    padding: 0.32rem 0.45rem;
+  }
+
+  .print-sheet--7 .maintenance-cleaners thead th {
+    font-size: 0.72rem;
+  }
+
+  .print-sheet--8 .section {
+    flex: 1 1 auto;
+    padding: 0 !important;
+  }
+
+  .print-sheet--8 .section > .container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .print-sheet--8 .final-section {
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: var(--space-xl);
   }
 
   .pdf-avoid-break {
@@ -698,25 +692,5 @@
   .pdf-page-break-before {
     break-before: page;
     page-break-before: always;
-  }
-
-  .pdf-compact {
-    font-size: 0.82rem;
-    line-height: 1.35;
-  }
-
-  .pdf-two-column {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 0.65rem !important;
-  }
-
-  .pdf-image-contain {
-    object-fit: contain !important;
-  }
-
-  .pdf-table {
-    width: 100% !important;
-    table-layout: fixed !important;
   }
 }

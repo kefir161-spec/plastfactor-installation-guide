@@ -1,7 +1,9 @@
 /* Cover */
 .cover {
   position: relative;
-  min-height: 85vh;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: clamp(420px, 56.25vw, 90vh);
   display: flex;
   align-items: flex-end;
   padding: var(--space-3xl) 0;
@@ -13,12 +15,14 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: #141414;
 }
 
 .cover__bg img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .cover__overlay {
@@ -440,6 +444,57 @@
   color: var(--color-text-muted);
 }
 
+.trowel-tkb {
+  margin: 0.35rem 0 0.5rem;
+}
+
+.trowel-tkb__table-wrap {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card);
+}
+
+.trowel-tkb__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.trowel-tkb__table th,
+.trowel-tkb__table td {
+  padding: 0.4rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trowel-tkb__table thead th {
+  background: var(--color-bg-muted);
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+.trowel-tkb__table tbody th {
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.trowel-tkb__table tbody td {
+  color: var(--color-text);
+}
+
+.trowel-tkb__table tbody tr:last-child th,
+.trowel-tkb__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.trowel-tkb__caption {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
 .step-card-item__image {
   margin-top: auto;
   flex: 1 1 0;
@@ -696,8 +751,9 @@
   top: 11.76%;
   width: 75%;
   height: 70.59%;
-  object-fit: contain;
+  object-fit: fill;
   display: block;
+  pointer-events: none;
 }
 
 .tile-visual__diagram {
@@ -707,83 +763,202 @@
   display: block;
 }
 
-/* Adhesive */
-.adhesive-grid {
-  align-items: stretch;
+/* Adhesive catalog */
+.adhesive-intro {
+  margin: 0 0 1.25rem;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6b7280;
+  max-width: 68ch;
 }
 
-.adhesive-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--space-lg);
-  height: 100%;
-}
-
-.adhesive-card__image {
-  flex: 1;
+.adhesive-catalog {
   width: 100%;
-  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(10, auto);
+  gap: 1.5rem;
+}
+
+.product-card.adhesive-product {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 10;
+  grid-column: span 1;
+  height: auto;
+  padding: 1.25rem 1.375rem 1.375rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.product-card__image {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 0;
+  height: 162px;
+  margin-bottom: 0;
+  background: #f8fafc;
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
 }
 
-.adhesive-card__image img {
-  width: auto;
-  max-width: 100%;
-  height: 100%;
+.product-card__image img {
+  display: block;
+  max-width: 85%;
+  max-height: 130px;
   object-fit: contain;
-  background: transparent;
-  border: none;
+  object-position: center;
 }
 
-.adhesive-tech h3 {
-  margin-top: 0;
-  margin-bottom: var(--space-md);
-  font-size: 1rem;
-}
-
-.adhesive-tech__specs {
-  margin: 0;
-}
-
-.adhesive-tech__row {
-  display: grid;
-  grid-template-columns: 7.5rem 1fr;
-  gap: 0.5rem 0.75rem;
-  padding: 0.4rem 0;
-  border-bottom: 1px solid var(--color-border);
-  font-size: 0.8125rem;
-  line-height: 1.45;
-}
-
-.adhesive-tech__row:last-child {
-  border-bottom: none;
-}
-
-.adhesive-tech__row dt {
-  margin: 0;
+.product-card__title {
+  margin: 0 0 0.6875rem;
+  padding-top: 1rem;
+  font-family: inherit;
+  font-size: 1.1875rem;
   font-weight: 700;
-  color: var(--color-heading);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #111827;
+  text-wrap: balance;
 }
 
-.adhesive-tech__row dd {
+.product-card__subtitle {
+  margin: 0 0 1.125rem;
+  padding-bottom: 0;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #6b7280;
+  max-width: 36ch;
+  text-wrap: pretty;
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.spec-row:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.spec-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #6b7280;
+}
+
+.spec-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #111827;
+  text-align: right;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+}
+
+.product-card__note {
   margin: 0;
-  color: var(--color-text);
-}
-
-.adhesive-tech__notes {
-  margin: var(--space-md) 0 0;
-  padding-left: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eef2f7;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: var(--color-text-muted);
+  color: #4b5563;
+  text-wrap: pretty;
 }
 
-.adhesive-tech__notes li + li {
-  margin-top: 0.35rem;
+.product-card__note-label {
+  font-weight: 700;
+  color: #334155;
+}
+
+.product-card__manual-link {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+.product-card__manual-link:hover {
+  color: #1e40af;
+}
+
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    gap: 1.25rem;
+  }
+
+  .product-card.adhesive-product {
+    grid-template-rows: none;
+    grid-row: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .product-card__image {
+    margin-bottom: 0;
+  }
+
+  .product-card__title {
+    padding-top: 0;
+    margin-bottom: 0.625rem;
+  }
+
+  .product-card__subtitle {
+    margin-bottom: 1rem;
+  }
+
+  .product-card__note {
+    margin-top: auto;
+    padding-top: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .product-card.adhesive-product {
+    padding: 1rem 1.125rem 1.125rem;
+  }
+
+  .product-card__subtitle {
+    max-width: none;
+  }
+
+  .spec-row {
+    grid-template-columns: 108px 1fr;
+    gap: 0.75rem;
+  }
 }
 
 /* Maintenance */

@@ -1,5 +1,6 @@
 import { FanDiagram, GShapeDiagram, RollingDiagram } from './Diagrams';
 import { ImageBlock } from './ImageBlock';
+import { TrowelTkbRef } from './TrowelTkbRef';
 
 export type StepVisual = string | 'diagram-g' | 'diagram-fan' | 'diagram-roll';
 
@@ -8,6 +9,7 @@ export interface StepCardItem {
   title: string;
   paragraphs: string[];
   notes?: string[];
+  showTrowelTkb?: boolean;
 }
 
 interface StepCardsGridProps {
@@ -67,6 +69,7 @@ export function StepCardsGrid({ items, visuals = {}, imagePositions = {} }: Step
           {item.paragraphs.map((line) => (
             <p key={line}>{line}</p>
           ))}
+          {item.showTrowelTkb && <TrowelTkbRef />}
           {item.notes?.map((line) => (
             <p key={line} className="step-card-item__note">
               {line}
@@ -97,11 +100,12 @@ export function prepStepsToCards(
 }
 
 export function installStepsToCards(
-  steps: { step: number; title: string; text: string }[],
+  steps: { step: number; title: string; text: string; showTrowelTkb?: boolean }[],
 ): StepCardItem[] {
   return steps.map((step) => ({
     step: step.step,
     title: step.title,
     paragraphs: [step.text],
+    showTrowelTkb: step.showTrowelTkb,
   }));
 }

@@ -26,6 +26,7 @@ export interface InstallStep {
   step: number;
   title: string;
   text: string;
+  showTrowelTkb?: boolean;
 }
 
 export interface PpeItem {
@@ -48,6 +49,27 @@ export interface CleanerProduct {
   purpose: string;
   features: string;
 }
+
+export interface AdhesiveProduct {
+  id: string;
+  name: string;
+  subtitle: string;
+  image: string;
+  specs: Record<AdhesiveSpecLabel, string>;
+  techNote?: string;
+  manualUrl?: string;
+}
+
+export const ADHESIVE_SPEC_LABELS = [
+  'Смешивание',
+  'Расход',
+  'Шпатель',
+  'Время на укладку',
+  'Затвердевание',
+  'Условия',
+] as const;
+
+export type AdhesiveSpecLabel = (typeof ADHESIVE_SPEC_LABELS)[number];
 
 import { assetUrl } from '../utils/assetUrl';
 
@@ -97,7 +119,7 @@ export const intro = {
     { label: 'Материал', value: 'ПВХ' },
     { label: 'Цвет', value: 'RAL 7037' },
     { label: 'Плотность укладки', value: '4 модуля/м²' },
-    { label: 'Клей', value: 'Eurocol 144 Euromix PU' },
+    { label: 'Клей', value: 'Eurocol 144 / Kiilto 2K PU / Homaprof 797' },
   ],
 } as const;
 
@@ -213,7 +235,11 @@ export const tools: ToolItem[] = [
     purpose: 'упрощает вырезание плитки под выступы и препятствия',
   },
   { group: '2. Инструмент для нанесения клея:', name: 'миксер или насадка на дрель', purpose: 'для размешивания компонентов клея' },
-  { group: '', name: 'зубчатый шпатель', purpose: 'для нанесения клея на основание пола' },
+  {
+    group: '',
+    name: 'зубчатый шпатель',
+    purpose: 'для нанесения клея на основание пола (TKB A1/A2)',
+  },
   {
     group: '3. Инструмент для укладки и фиксации плитки:',
     name: 'киянка (резиновый молоток)',
@@ -252,29 +278,67 @@ export const specs: TableRow[] = [
 
 export const specsHeaders = ['Параметр', 'Значение'];
 
-export const adhesive = {
-  name: 'Eurocol 144 Euromix PU',
-  label: 'Рекомендуемый клей — Eurocol 144 Euromix PU (двухкомпонентный полиуретановый клей)',
-  techTitle: 'Техническое описание',
-  techSpecs: [
-    { label: 'Тип', value: '2-компонентный полиуретановый клей' },
-    { label: 'Назначение', value: 'гомогенные виниловые покрытия в виде плиток' },
-    { label: 'Смешивание', value: '100 : 12,5 (компонент А : компонент Б)' },
-    { label: 'Расход', value: '300–500 г/м²' },
-    { label: 'Шпатель', value: 'A1/A2 (TKB)' },
-    { label: 'Время на укладку', value: 'ок. 90 мин при +20 °C' },
-    { label: 'Затвердевание', value: 'ок. 24 ч при +18…20 °C и влажности 65%' },
-    {
-      label: 'Условия',
-      value: 'температура материала и в помещении не ниже +18 °C, пола — не ниже +15 °C, влажность 35–75% (рекомендуется <65%)',
-    },
+export const trowelTkb = {
+  headers: ['Параметр', 'A1', 'A2'],
+  rows: [
+    { label: 'Ширина зубца', a1: '1,5 мм', a2: '1,7 мм' },
+    { label: 'Ширина впадины', a1: '0,5 мм', a2: '1,3 мм' },
+    { label: 'Глубина впадины', a1: '1,1 мм', a2: '1,4 мм' },
   ],
-  techNotes: [
-    'Не содержит растворителей и воды, затвердевает без усадки.',
-    'Перемешать миксером до однородности, перелить в чистую ёмкость и перемешать ещё раз. Частичное смешивание недопустимо.',
-    'Основание — ровное, прочное, чистое, сухое, без трещин.',
-  ],
+  caption: 'Классификация TKB, серия A (треугольный зуб, 55°)',
 } as const;
+
+export const adhesiveIntro =
+  'Рекомендуемые двухкомпонентные полиуретановые клеи для приклеивания модульной ПВХ-плитки:';
+
+export const adhesives: AdhesiveProduct[] = [
+  {
+    id: 'eurocol',
+    name: 'Eurocol 144 Euromix PU',
+    subtitle: '2-компонентный полиуретановый клей + отвердитель',
+    image: assetUrl('images/products/eurocol-144-euromix-pu.png'),
+    specs: {
+      Смешивание: '100:12,5 (A:B)',
+      Расход: '300–500 г/м²',
+      Шпатель: 'TKB A1/A2',
+      'Время на укладку': 'ок. 90 мин при +20 °C',
+      Затвердевание: 'ок. 24 ч',
+      Условия: 'материал и воздух ≥ +18 °C, пол ≥ +15 °C, влажность 35–75%',
+    },
+    techNote: 'Перемешать до однородности, перелить в чистую ёмкость и перемешать ещё раз.',
+    manualUrl: assetUrl('docs/eurocol-144-euromix-pu-instruction.pdf'),
+  },
+  {
+    id: 'kiilto',
+    name: 'Kiilto Эко 2K PU',
+    subtitle: '2-компонентный полиуретановый клей + отвердитель',
+    image: assetUrl('images/products/kiilto-2k-pu.png'),
+    specs: {
+      Смешивание: 'А + Б из комплекта (фасовка 6–7 кг)',
+      Расход: '1000–1300 г/м²',
+      Шпатель: 'зубчатый',
+      'Время на укладку': '60–90 мин',
+      Затвердевание: '12 ч',
+      Условия: 'стяжка: влажность ≤ 4%, t ≥ +15 °C',
+    },
+    techNote: 'Смешивать компоненты по инструкции производителя.',
+  },
+  {
+    id: 'homaprof',
+    name: 'Homaprof 797 2K PU',
+    subtitle: '2-компонентный полиуретановый клей + отвердитель',
+    image: assetUrl('images/products/homaprof-797-2k-pu.png'),
+    specs: {
+      Смешивание: '100:15 (A:B)',
+      Расход: '450–1200 г/м²',
+      Шпатель: 'зубчатый',
+      'Время на укладку': '60–90 мин',
+      Затвердевание: '24 ч',
+      Условия: '+15…+25 °C, влажность 40–75%',
+    },
+    techNote: 'Компонент Б полностью вылить в ёмкость с компонентом А.',
+  },
+];
 
 export const installSteps: InstallStep[] = [
   {
@@ -301,6 +365,7 @@ export const installSteps: InstallStep[] = [
     step: 5,
     title: 'Нанесение клея',
     text: 'Нанесите клей шпателем А1/А2 на небольшой участок 2–3 кв. м. Старайтесь формировать ровный слой, без сгустков и пустот.',
+    showTrowelTkb: true,
   },
   {
     step: 6,

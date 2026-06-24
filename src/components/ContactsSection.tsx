@@ -27,6 +27,12 @@ export function ContactsSection({ checklist }: { checklist: readonly string[] })
             <dt>Режим работы</dt>
             <dd>{contacts.hours}</dd>
           </div>
+          <div className="contacts-list__row print-only">
+            <dt>Инструкция</dt>
+            <dd>
+              <a href={contacts.electronicGuide}>Электронная инструкция</a>
+            </dd>
+          </div>
         </dl>
       </div>
 

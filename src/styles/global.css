@@ -244,3 +244,7 @@ a:hover {
 .print-only {
   display: none;
 }
+
+.print-sheet {
+  display: contents;
+}
