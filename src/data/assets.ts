@@ -9,7 +9,6 @@ export const images = {
   prepAssessment: assetUrl('images/local/prep-base-assessment.png'),
   cleaning: local('Photorealistic_modern_warehouse_interior,_the_202606181351.jpeg'),
   priming: local('Photorealistic_modern_warehouse_interior,_the_202606181354.jpeg'),
-  selfLeveling: local('Photorealistic_modern_warehouse_interior,_the_202606181356.jpeg'),
   installation1: assetUrl('images/local/install-acclimatization.png'),
   installGap: assetUrl('images/local/install-gap.png'),
   installAxisLines: assetUrl('images/local/install-axis-lines.png'),

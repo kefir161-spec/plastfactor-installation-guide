@@ -1210,22 +1210,6 @@
   color: var(--color-text-muted);
 }
 
-.hazard-icons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
-}
-
-.hazard-icons span {
-  padding: 0.5rem 1rem;
-  background: var(--color-warning-bg);
-  border: 1px solid var(--color-warning-border);
-  border-radius: var(--radius-sm);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
 /* Checklist */
 .checklist__list {
   list-style: none;

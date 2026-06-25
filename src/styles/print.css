@@ -237,15 +237,17 @@
     flex: 1 1 auto;
   }
 
-  /* Основания + требования */
+  /* Основания */
   .print-sheet--2 .base-compare {
     flex: 1 1 auto;
     align-items: stretch;
+    min-height: 0;
   }
 
   .print-sheet--2 .base-compare__item {
     display: flex;
     flex-direction: column;
+    min-height: 0;
   }
 
   .print-sheet--2 .base-compare__item .image-block {
@@ -253,15 +255,30 @@
     display: flex;
     flex-direction: column;
     margin-top: auto;
+    min-height: 0;
   }
 
   .print-sheet--2 .base-compare__item img {
     flex: 1 1 auto;
     width: 100%;
+    min-height: 12rem;
     object-fit: cover;
   }
 
-  /* Подготовка основания */
+  /* Требования + подготовка основания */
+  .print-sheet--3 #floor-req {
+    flex: 0 0 auto;
+  }
+
+  .print-sheet--3 #floor-req .req-table-wrap {
+    margin-bottom: 0;
+  }
+
+  .print-sheet--3 #prep {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
   .print-sheet--3 .step-cards-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
@@ -579,15 +596,6 @@
     margin: 0;
     font-size: 0.76rem;
     line-height: 1.42;
-  }
-
-  .print-sheet--7 .hazard-icons {
-    gap: 0.35rem;
-    font-size: 0.74rem;
-  }
-
-  .print-sheet--7 .hazard-icons span {
-    padding: 0.28rem 0.55rem;
   }
 
   .print-sheet--7 .maintenance-section {

@@ -43,7 +43,6 @@ const prepImages: Record<number, string> = {
   2: images.concreteLeveling,
   3: images.cleaning,
   4: images.priming,
-  5: images.selfLeveling,
 };
 
 const installVisuals: Record<number, StepVisual> = {
@@ -62,8 +61,7 @@ const installImagePositions: Record<number, string> = {
   1: 'center 78%',
   3: 'center bottom',
   4: 'center top',
-  8: 'center 35%',
-  9: 'center top',
+  9: 'center 12%',
 };
 
 export default function App() {
@@ -104,7 +102,9 @@ export default function App() {
             </article>
           </div>
         </Section>
+      </PrintSheet>
 
+      <PrintSheet className="print-sheet--3">
         <Section
           id="floor-req"
           number={sections.floorReq.number}
@@ -112,9 +112,7 @@ export default function App() {
         >
           <FloorRequirementsTable rows={floorRequirements} />
         </Section>
-      </PrintSheet>
 
-      <PrintSheet className="print-sheet--3">
         <Section
           id="prep"
           number={sections.prep.number}
@@ -188,12 +186,6 @@ export default function App() {
                 <p>{item.value}</p>
               </article>
             ))}
-          </div>
-          <div className="hazard-icons" aria-label="Ограничения по агрессивным средам">
-            <span>растворитель</span>
-            <span>ацетон</span>
-            <span>концентрированные кислоты</span>
-            <span>УФ / прямое солнце</span>
           </div>
         </Section>
 
